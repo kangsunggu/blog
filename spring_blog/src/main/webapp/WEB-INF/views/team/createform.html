@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function input(f){
+		if(f.name.value==""){
+			alert("이름을 입력하세요");
+			f.name.focus();
+			return false;
+		}
+		
+		if(f.gender[0].checked==false && f.gender[1].checked==false){
+			alert("성별을 체크하세요");
+			f.gender[0].focus();
+			return false;
+		}
+		if(f.phone.value==""){
+			alert("휴대폰번호를 입력하세요");
+			f.phone.focus();
+			return false;
+		}
+		if(f.zipcode.value==""){
+			alert("우편번호를 입력하세요");
+			f.zipcode.focus();
+			return false;
+		}
+		if(f.address1.value==""){
+			alert("주소를 입력하세요");
+			f.address1.focus();
+			return false;
+		}
+		if(f.address2.value==""){
+			alert("상세주소를 입력하세요");
+			f.address2.focus();
+			return false;
+		}
+		var cnt =0;
+		for(var i=0; i<f.skill.length; i++){
+			if(f.skill[i].checked){
+				cnt += 1;
+			}
+		}
+		if(cnt==0){
+			alert("보유기술을 체크하세요");
+			f.skill[0].focus();
+			return false;
+		}
+	}
+</script>
+<style>
+/* legend { */
+/* 	margin: auto; */
+/* } */
+/* fieldset { */
+/* 	margin: auto; */
+/* } */
+</style>
+
+</head>
+<body>
+
+<form action="createroc.jsp" method="post" onsubmit="return input(this)">
+<div class="text-center">팀정보 생성</div>
+<fieldset style="width: 40%">
+<h4>개인 정보</h4>
+<table border="1">
+	<tr>
+		<th>이름</th>
+		<td><input type="text" name="name"></td>
+	</tr>
+		
+	<tr>
+		<th>성별</th>
+		<td><label for="g1"><input id="g1" type="radio" name="gender">남자</label>
+<label for="g2"><input id="g2" type="radio" name="gender">여자<br></label></td>
+	</tr>
+	
+	<tr>
+		<th>전화번호</th>
+		<td><input type="text" name="phone"></td>
+	</tr>
+	
+</table>
+<h4>주소검색</h4>
+<table border="1">	
+	<tr>
+		<th>우편번호</th>
+		<td><input type="text" name="zipcode" size="7" maxlength="5"></td>
+	</tr>
+
+	<tr>
+		<th>주소</th>
+		<td><input type="text" name="address1" size="45"></td>
+	</tr>
+	
+	<tr>
+		<th>상세주소</th>
+		<td><input type="text" name="address2" size="45"></td>
+	</tr>
+	<tr>
+		<th>취미</th>
+		<td><select name="hobby">
+			<option value="기술서적읽기">기술서적읽기</option>
+			<option value="영화보기">영화보기</option>
+			<option value="노래듣기">노래듣기</option>
+			<option value="보드게임">보드게임</option>
+			<option value="야구경기">야구경기</option>
+			</select></td>
+	</tr>
+	<tr>
+		<th>사진첨부</th>
+		<td><input type="file" name="filename"></td>
+	</tr>
+	<tr>
+		<td><input type="submit" value="등록"><input type="reset" value="다시입력"></td>
+	</tr>
+</table>
+</fieldset>
+</form>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="address">
+	
+	<select id="total" resultType="int" parameterType="Map">
+	select count(*)  from address
+	<where>	
+	<choose>
+            <when test="col=='name'">
+            name like '%'||#{word}||'%' 
+            </when>
+            <when test="col=='no'">
+            no like '%'||#{word}||'%'
+            </when>
+            <when test="col=='phone'">
+            phone like '%'||#{word}||'%'
+            </when>  
+     </choose>
+           </where>
+                                     
+                                                        
+  </select>
+	 
+	<delete id="delete" parameterType="int">
+	delete from address 
+	where no = #{no}
+	</delete>
+	
+	<insert id="create" parameterType="AddressDTO">
+	insert into address(no,name,phone,address1,address2,zipcode,wdate)
+	values ((select nvl(max(no),0)+1 from address),#{name},#{phone},#{address1},#{address2},#{zipcode},sysdate) 
+	
+	</insert>
+	
+	<update id="update" parameterType="int">
+	update address set phone=#{phone},address2=#{address2},address1=#{address1},zipcode=#{zipcode}
+	where no =#{no}
+	</update>
+	
+  <select id="list" resultType="AddressDTO" parameterType="Map">
+   select no,name,phone,to_char(wdate,'yyyy-mm-dd') wdate,r from(
+	select no,name,phone,wdate,rownum r from(                 
+	select no,name,phone,wdate from address
+	<where>
+            <choose>
+            <when test="col=='name'">
+            name like '%'||#{word}||'%'
+            </when>
+            <when test="col=='no'">
+            no like '%'||#{word}||'%' 
+            </when>
+            <when test="col=='phone'">
+            phone like '%'||#{word}||'%'
+            </when>
+            
+            </choose>
+   </where>
+	
+<!-- 	<if test="word.trim().length() > 0"> -->
+<!-- 	where "+col+" like '%'||#{word}||'%' -->
+<!-- 	</if>                                                                                                                                -->
+	order by no desc                                         
+	)
+)                                                                     
+   <![CDATA[                                                                        
+   where r>=#{ano} and r<=${bno}  
+   ]]>                                                           
+  </select>
+ 
+  <select id="read" resultType="AddressDTO" parameterType="int" >
+   select * from address
+	where no=#{no}                                               
+  </select>
+      
+</mapper>
